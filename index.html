@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graphing Calculator — TI-84 Plus CE Style</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="calculator">
+    <header class="calc-header">
+      <span class="logo">TI-84 Plus CE</span>
+      <span class="mode-indicator" id="angleMode">RAD</span>
+    </header>
+
+    <div class="screen-area">
+      <div class="graph-container">
+        <canvas id="graphCanvas" width="320" height="180"></canvas>
+        <div class="graph-overlay" id="graphOverlay"></div>
+      </div>
+      <div class="display-row">
+        <span class="display-label" id="displayLabel"></span>
+        <div class="display" id="display"></div>
+      </div>
+    </div>
+
+    <nav class="menu-bar">
+      <button type="button" class="menu-btn" data-menu="yequals" title="Y=">Y=</button>
+      <button type="button" class="menu-btn" data-menu="window" title="Window">WINDOW</button>
+      <button type="button" class="menu-btn" data-menu="graph" title="Graph">GRAPH</button>
+      <button type="button" class="menu-btn" data-menu="mode" title="Mode">MODE</button>
+      <button type="button" class="menu-btn" data-menu="trace" title="Trace">TRACE</button>
+      <button type="button" class="menu-btn" data-menu="table" title="Table">TABLE</button>
+    </nav>
+
+    <div class="keypad">
+      <div class="key-row">
+        <button type="button" class="key key-func" data-key="yequals">Y=</button>
+        <button type="button" class="key key-func" data-key="window">WINDOW</button>
+        <button type="button" class="key key-func" data-key="zoom">ZOOM</button>
+        <button type="button" class="key key-func" data-key="trace">TRACE</button>
+        <button type="button" class="key key-func" data-key="graph">GRAPH</button>
+      </div>
+      <div class="key-row">
+        <button type="button" class="key key-secondary" data-key="2nd">2nd</button>
+        <button type="button" class="key key-op" data-key="^">^</button>
+        <button type="button" class="key key-op" data-key="(">(</button>
+        <button type="button" class="key key-op" data-key=")">)</button>
+        <button type="button" class="key key-op" data-key="÷">÷</button>
+      </div>
+      <div class="key-row">
+        <button type="button" class="key key-func" data-key="sin">sin</button>
+        <button type="button" class="key key-num" data-key="7">7</button>
+        <button type="button" class="key key-num" data-key="8">8</button>
+        <button type="button" class="key key-num" data-key="9">9</button>
+        <button type="button" class="key key-op" data-key="×">×</button>
+      </div>
+      <div class="key-row">
+        <button type="button" class="key key-func" data-key="cos">cos</button>
+        <button type="button" class="key key-num" data-key="4">4</button>
+        <button type="button" class="key key-num" data-key="5">5</button>
+        <button type="button" class="key key-num" data-key="6">6</button>
+        <button type="button" class="key key-op" data-key="-">−</button>
+      </div>
+      <div class="key-row">
+        <button type="button" class="key key-func" data-key="tan">tan</button>
+        <button type="button" class="key key-num" data-key="1">1</button>
+        <button type="button" class="key key-num" data-key="2">2</button>
+        <button type="button" class="key key-num" data-key="3">3</button>
+        <button type="button" class="key key-op" data-key="+">+</button>
+      </div>
+      <div class="key-row">
+        <button type="button" class="key key-func" data-key="math">MATH</button>
+        <button type="button" class="key key-num" data-key="0">0</button>
+        <button type="button" class="key key-num" data-key=".">.</button>
+        <button type="button" class="key key-num" data-key="(-)">(-)</button>
+        <button type="button" class="key key-op key-enter" data-key="enter">ENTER</button>
+      </div>
+      <div class="key-row key-row-bottom">
+        <button type="button" class="key key-func" data-key="log">log</button>
+        <button type="button" class="key key-func" data-key="ln">ln</button>
+        <button type="button" class="key key-func" data-key="sqrt">√</button>
+        <button type="button" class="key key-func" data-key="x²">x²</button>
+        <button type="button" class="key key-func" data-key="clear">CLEAR</button>
+        <button type="button" class="key key-func" data-key="del">DEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Y= equations -->
+  <div class="modal" id="modalYEquals" aria-hidden="true">
+    <div class="modal-content">
+      <h2>Y= Editor</h2>
+      <div class="y-editor" id="yEditor"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-action="close-y">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: WINDOW -->
+  <div class="modal" id="modalWindow" aria-hidden="true">
+    <div class="modal-content">
+      <h2>WINDOW</h2>
+      <div class="window-editor" id="windowEditor"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-action="close-window">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: MODE -->
+  <div class="modal" id="modalMode" aria-hidden="true">
+    <div class="modal-content">
+      <h2>MODE</h2>
+      <div class="mode-editor" id="modeEditor">
+        <label><input type="radio" name="angle" value="deg" /> Degree</label>
+        <label><input type="radio" name="angle" value="rad" /> Radian</label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-action="close-mode">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: TABLE -->
+  <div class="modal modal-wide" id="modalTable" aria-hidden="true">
+    <div class="modal-content">
+      <h2>TABLE</h2>
+      <div class="table-container">
+        <table class="data-table" id="dataTable">
+          <thead><tr><th>X</th><th>Y₁</th><th>Y₂</th><th>Y₃</th></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-action="close-table">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="parser.js"></script>
+  <script src="graph.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
